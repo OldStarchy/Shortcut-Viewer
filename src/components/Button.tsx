@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Key } from '../keys/Key';
+import './Button.scss';
 
 export class Button extends React.Component<
 	{
@@ -34,7 +35,7 @@ export class Button extends React.Component<
 					top: key.y * scale,
 					...styles,
 				}}
-				className="key"
+				className="button"
 				onMouseEnter={() => {
 					this.setState({ hovered: true });
 					keyEnter(key.bindingName);

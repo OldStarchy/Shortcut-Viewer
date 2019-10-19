@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Checkbox.scss';
 
 export class CheckBox extends React.Component<
 	{

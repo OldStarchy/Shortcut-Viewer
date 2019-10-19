@@ -1,0 +1,33 @@
+.checkbox {
+	position: relative;
+}
+.checkbox > input {
+	width: 0px;
+	height: 0px;
+	visibility: hidden;
+	position: fixed;
+	left: -100px;
+	top: -100px;
+}
+.checkbox > input + label::before {
+	display: inline-block;
+	content: '';
+	width: 1em;
+	height: 1em;
+	border: 1px solid black;
+	margin-right: 0.5em;
+	vertical-align: middle;
+}
+.checkbox > input:checked + label::before {
+	background-color: #555;
+}
+.checkbox > label {
+	display: inline-block;
+	width: 100%;
+	padding: 0.25em 0.5em;
+	vertical-align: middle;
+	border: 1px solid black;
+}
+.checkbox > label:hover {
+	background-color: #aaa;
+}

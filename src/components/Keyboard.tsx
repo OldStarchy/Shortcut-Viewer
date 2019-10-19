@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Key } from '../keys/Key';
 import { Layout } from '../layouts/Layout';
 import { Button } from './Button';
+import './Keyboard.scss';
 
 export const Keyboard = ({
 	scale,

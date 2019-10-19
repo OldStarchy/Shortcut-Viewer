@@ -5,6 +5,7 @@ import { DefaultBinding } from './bindings/DefaultBinding';
 import { App } from './components/App';
 import { KeyBindings } from './KeyboardShortcuts';
 import { USLayout } from './layouts/USLayout';
+import './styles/styles.scss';
 
 function init() {
 	const container = document.getElementsByClassName('app')[0];
@@ -13,14 +14,14 @@ function init() {
 		return;
 	}
 
-	const kbsh = new KeyBindings();
+	const keyBindings = new KeyBindings();
 
-	kbsh.load(DefaultBinding);
-	kbsh.load(CurrentBinding);
+	keyBindings.load(DefaultBinding);
+	keyBindings.load(CurrentBinding);
 
 	const layout = new USLayout();
 
-	ReactDOM.render(<App keyBindings={kbsh} layout={layout} />, container);
+	ReactDOM.render(<App keyBindings={keyBindings} layout={layout} />, container);
 }
 
 init();
