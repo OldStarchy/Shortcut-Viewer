@@ -6,5 +6,6 @@ export class Key {
 		readonly y: number,
 		readonly width: number = 1,
 		readonly height: number = 1,
+		readonly bindingName: string = key.toLowerCase(),
 	) {}
 }

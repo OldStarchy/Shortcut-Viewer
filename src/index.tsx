@@ -1,6 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Keyboard } from './components/Keyboard';
+import { CurrentBinding } from './bindings/CurrentBinding';
+import { DefaultBinding } from './bindings/DefaultBinding';
+import { App } from './components/App';
+import { KeyBindings } from './KeyboardShortcuts';
 import { USLayout } from './layouts/USLayout';
 
 function init() {
@@ -10,7 +13,14 @@ function init() {
 		return;
 	}
 
-	ReactDOM.render(<Keyboard layout={new USLayout()} scale={48} />, container);
+	const kbsh = new KeyBindings();
+
+	kbsh.load(DefaultBinding);
+	kbsh.load(CurrentBinding);
+
+	const layout = new USLayout();
+
+	ReactDOM.render(<App keyBindings={kbsh} layout={layout} />, container);
 }
 
 init();

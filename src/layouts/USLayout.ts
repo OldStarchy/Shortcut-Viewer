@@ -75,7 +75,7 @@ export class USLayout extends Layout {
 		this.push("'", 11.75, 3);
 		this.push('Enter', 12.75, 3, 2.25);
 
-		this.push('Left Shift', 0, 4, 2);
+		this.push('Shift', 0, 4, 2, undefined, 'shift');
 		this.push('Z', 2, 4);
 		this.push('X', 3, 4);
 		this.push('C', 4, 4);
@@ -84,17 +84,17 @@ export class USLayout extends Layout {
 		this.push('N', 7, 4);
 		this.push('M', 8, 4);
 		this.push(',', 9, 4);
-		this.push('.', 10, 4);
+		this.push('.', 10, 4, undefined, undefined, 'oem_period');
 		this.push('/', 11, 4);
-		this.push('Right Shift', 12, 4, 3);
+		this.push('Shift', 12, 4, 3, undefined, 'shift');
 
-		this.push('Left Control', 0, 5, 1.25);
-		this.push('Left OEM', 1.25, 5, 1.25);
-		this.push('Left Alt', 2.5, 5, 1.25);
+		this.push('Control', 0, 5, 1.25, undefined, 'ctrl');
+		this.push('OEM', 1.25, 5, 1.25, undefined, 'win');
+		this.push('Alt', 2.5, 5, 1.25, undefined, 'alt');
 		this.push('Space', 3.75, 5, 11.25 - 3.75);
-		this.push('Right Alt', 11.25, 5, 1.25);
-		this.push('Right OEM', 12.5, 5, 1.25);
-		this.push('Right Control', 13.75, 5, 1.25);
+		this.push('Alt', 11.25, 5, 1.25, undefined, 'alt');
+		this.push('OEM', 12.5, 5, 1.25, undefined, 'win');
+		this.push('Control', 13.75, 5, 1.25, undefined, 'ctrl');
 
 		this.push('Up', 16.5, 4);
 		this.push('Left', 15.5, 5);
