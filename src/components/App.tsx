@@ -44,6 +44,8 @@ export class App extends React.Component<
 		],
 	};
 
+	useKeybind = true;
+
 	filterItems(key: string) {
 		this.setState({
 			...this.state,
@@ -86,12 +88,32 @@ export class App extends React.Component<
 	}
 
 	onClick(key: Key) {
+		this.toggleKey(key.bindingName);
+	}
+
+	toggleKey(bindingName: string, down?: boolean) {
 		const modifiers = this.state.modifiers;
 
-		if (modifiers.includes(key.bindingName)) {
-			modifiers.splice(modifiers.indexOf(key.bindingName), 1);
+		if (down === undefined) {
+			if (modifiers.includes(bindingName)) {
+				modifiers.splice(modifiers.indexOf(bindingName), 1);
+			} else {
+				modifiers.push(bindingName);
+			}
 		} else {
-			modifiers.push(key.bindingName);
+			if (down) {
+				if (!modifiers.includes(bindingName)) {
+					modifiers.push(bindingName);
+				} else {
+					return;
+				}
+			} else {
+				if (modifiers.includes(bindingName)) {
+					modifiers.splice(modifiers.indexOf(bindingName), 1);
+				} else {
+					return;
+				}
+			}
 		}
 
 		this.setState({
@@ -101,13 +123,17 @@ export class App extends React.Component<
 	}
 
 	componentDidMount() {
-		document.addEventListener('keyup', e => {
-			const btn = this.props.layout.buttons.find(b => b.key.toLowerCase() == e.key.toLowerCase());
-			if (btn) {
-				this.onClick(btn);
-				e.preventDefault();
+		const handler = (down: boolean, e: KeyboardEvent) => {
+			if (this.useKeybind) {
+				const btn = this.props.layout.buttons.find(b => b.key.toLowerCase() == e.key!.toLowerCase());
+				if (btn) {
+					this.toggleKey(btn.bindingName, down);
+					e.preventDefault();
+				}
 			}
-		});
+		};
+		document.addEventListener('keyup', handler.bind(this, false));
+		document.addEventListener('keydown', handler.bind(this, true));
 	}
 
 	onChangeCondition(condition: string, value: string | boolean) {
@@ -157,6 +183,7 @@ export class App extends React.Component<
 					keyLeave={() => this.resetFilter()}
 					selectedKeys={modifiers}
 				/>
+				<CheckBox label="Bind keyboard" checked={true} onChange={on => (this.useKeybind = on)} id="keybind" />
 				<div className="left-right">
 					<div style={{ flexGrow: 1 }}>
 						<h2>Search</h2>
