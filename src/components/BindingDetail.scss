@@ -1,11 +1,22 @@
 .binding-detail {
 	margin-bottom: 1rem;
-}
-.binding-detail > span {
-	display: block;
-	margin-left: 2rem;
-}
-.binding-detail .input {
-	font-weight: bold;
-	margin-left: 0;
+	border-left-width: 0.5rem;
+	border-left-style: solid;
+	padding-left: 1rem;
+
+	&.active {
+		border-left-color: #090;
+	}
+	&.inactive {
+		border-left-color: #744;
+		color: #888;
+	}
+	> span {
+		display: block;
+		margin-left: 2rem;
+	}
+	.command {
+		font-weight: bold;
+		margin-left: 0;
+	}
 }

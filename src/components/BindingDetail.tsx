@@ -12,9 +12,9 @@ export class BindingDetail extends React.Component<
 > {
 	public render() {
 		return (
-			<div className="binding-detail">
-				<span className="input">{this.props.input}</span>
+			<div className={`binding-detail ${this.props.active ? 'active' : 'inactive'}`}>
 				<span className="command">{this.props.command}</span>
+				<span className="input">{this.props.input}</span>
 				<span className="when">{this.props.when}</span>
 			</div>
 		);

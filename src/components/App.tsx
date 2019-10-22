@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { KeyBindings } from '../KeyboardShortcuts';
+import { appliesToCondition, KeyBindings } from '../KeyboardShortcuts';
 import { Key } from '../keys/Key';
 import { Layout } from '../layouts/Layout';
 import { BindingList } from './BindingList';
@@ -14,7 +14,18 @@ export type Binding = {
 type AppState = {
 	searchKey: string;
 	modifiers: string[];
+	conditions: Condition[];
 };
+export type Condition =
+	| {
+			type: 'boolean';
+			condition: string;
+	  }
+	| {
+			type: 'string';
+			variable: string;
+			value: string;
+	  };
 export class App extends React.Component<
 	{
 		keyBindings: KeyBindings;
@@ -22,7 +33,16 @@ export class App extends React.Component<
 	},
 	AppState
 > {
-	state: AppState = { searchKey: '', modifiers: [] };
+	state: AppState = {
+		searchKey: '',
+		modifiers: [],
+		conditions: [
+			{
+				type: 'boolean',
+				condition: '*',
+			},
+		],
+	};
 
 	filterItems(key: string) {
 		this.setState({
@@ -55,12 +75,13 @@ export class App extends React.Component<
 							input: binding.key,
 							command,
 							when,
+							active: appliesToCondition(when, ...this.state.conditions),
 						});
 					}
 				}
 				return list;
 			},
-			[] as Binding[],
+			[] as Array<Binding & { active: boolean }>,
 		);
 	}
 
@@ -82,12 +103,43 @@ export class App extends React.Component<
 	componentDidMount() {
 		document.addEventListener('keyup', e => {
 			const btn = this.props.layout.buttons.find(b => b.key.toLowerCase() == e.key.toLowerCase());
-
 			if (btn) {
 				this.onClick(btn);
 				e.preventDefault();
 			}
 		});
+	}
+
+	onChangeCondition(condition: string, value: string | boolean) {
+		if (typeof value === 'string') {
+			return;
+		}
+
+		if (value) {
+			if (this.state.conditions.findIndex(c => c.type == 'boolean' && c.condition == condition) === -1) {
+				this.setState({
+					...this.state,
+					conditions: [
+						...this.state.conditions,
+						{
+							type: 'boolean',
+							condition: condition,
+						},
+					],
+				});
+			}
+		} else {
+			const index = this.state.conditions.findIndex(c => c.type == 'boolean' && c.condition == condition);
+			if (index !== -1) {
+				const conds = this.state.conditions.slice();
+				conds.splice(index, 1);
+
+				this.setState({
+					...this.state,
+					conditions: conds,
+				});
+			}
+		}
 	}
 
 	render() {
@@ -118,15 +170,31 @@ export class App extends React.Component<
 
 						<h2>Bindings</h2>
 						<BindingList
-							items={this.bindingsToItems(
-								this.props.keyBindings.filter(...this.state.modifiers.concat(this.state.searchKey)),
+							items={this.props.keyBindings.filter(
+								this.state.conditions,
+								...this.state.modifiers.concat(this.state.searchKey),
 							)}
 						/>
 					</div>
 					<div style={{ flexShrink: 1 }}>
-						<h2>Conditions (NYI)</h2>
+						<h2>Conditions</h2>
+						<CheckBox
+							id="_all"
+							label="*"
+							onChange={checked => {
+								this.onChangeCondition('*', checked);
+							}}
+							checked={true}
+						/>
 						{this.props.keyBindings.conditions.map((cond, index) => (
-							<CheckBox key={index} id={`Condition${index}`} label={cond} onChange={() => {}} />
+							<CheckBox
+								key={index}
+								id={`Condition${index}`}
+								label={cond}
+								onChange={checked => {
+									this.onChangeCondition(cond, checked);
+								}}
+							/>
 						))}
 					</div>
 				</div>
