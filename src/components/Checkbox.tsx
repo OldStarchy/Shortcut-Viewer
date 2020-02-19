@@ -1,17 +1,14 @@
 import * as React from 'react';
 import './Checkbox.scss';
 
-export class CheckBox extends React.Component<
-	{
-		label: string;
-		checked?: boolean;
-		id: string;
-		onChange: (checked: boolean) => void;
-	},
-	{
-		checked: boolean;
-	}
-> {
+export interface ICheckBoxProps {
+	label: string;
+	checked?: boolean;
+	id: string;
+	onChange: (checked: boolean) => void;
+}
+
+export class CheckBox extends React.Component<ICheckBoxProps, {}> {
 	state = { checked: this.props.checked || false };
 
 	public render() {
