@@ -1,5 +1,6 @@
 import { IKeyBinding } from '../KeyboardShortcuts';
 
+// Copy your custom keybindings json here
 export const CurrentBinding: IKeyBinding[] = [
 	{
 		"key": "shift+delete",
@@ -15,11 +16,6 @@ export const CurrentBinding: IKeyBinding[] = [
 		"key": "ctrl+shift+k",
 		"command": "-editor.action.deleteLines",
 		"when": "editorTextFocus && !editorReadonly"
-	},
-	{
-		"key": "ctrl+k ctrl+d",
-		"command": "editor.action.formatDocument",
-		"when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly"
 	},
 	{
 		"key": "shift+alt+f",
@@ -147,11 +143,6 @@ export const CurrentBinding: IKeyBinding[] = [
 		"when": "config.emmet.triggerExpansionOnTab && editorTextFocus && !editorReadonly && !editorTabMovesFocus"
 	},
 	{
-		"key": "ctrl+k ctrl+d",
-		"command": "eslint.executeAutofix",
-		"when": "resourceLangId == javascript"
-	},
-	{
 		"key": "ctrl+shift+i",
 		"command": "insertDateString.insertDate"
 	},
@@ -187,10 +178,6 @@ export const CurrentBinding: IKeyBinding[] = [
 	{
 		"key": "ctrl+k r",
 		"command": "-workbench.action.files.revealActiveFileInWindows"
-	},
-	{
-		"key": "alt+right",
-		"command": "-workbench.action.navigateForward"
 	},
 	{
 		"key": "ctrl+shift+alt+left",
@@ -365,16 +352,6 @@ export const CurrentBinding: IKeyBinding[] = [
 		"when": "editorTextFocus && !extension.simpleVim.insertMode"
 	},
 	{
-		"key": "escape",
-		"command": "extension.simpleVim.escapeKey",
-		"when": "!editorHasMultipleSelections && !suggestWidgetVisible && editorTextFocus && !reviewPanelVisible && !parameterHintsVisible"
-	},
-	{
-		"key": "escape",
-		"command": "-extension.simpleVim.escapeKey",
-		"when": "editorTextFocus"
-	},
-	{
 		"key": "ctrl+k ctrl+v",
 		"command": "markdown.showPreviewToSide",
 		"when": "editorLangId == 'markdown'"
@@ -483,11 +460,11 @@ export const CurrentBinding: IKeyBinding[] = [
 		"when": "editorTextFocus"
 	},
 	{
-		"key": "alt+g",
+		"key": "ctrl+k ctrl+g",
 		"command": "findThenJump.initiate"
 	},
 	{
-		"key": "shift+alt+g",
+		"key": "ctrl+shift+k ctrl+shift+g",
 		"command": "findThenJump.initiateWithSelection"
 	},
 	{
@@ -513,24 +490,12 @@ export const CurrentBinding: IKeyBinding[] = [
 		"command": "workbench.action.tasks.test"
 	},
 	{
-		"key": "alt+left",
-		"command": "-workbench.action.navigateBack"
-	},
-	{
 		"key": "ctrl+alt+left",
 		"command": "-workbench.action.moveEditorToPreviousGroup"
 	},
 	{
 		"key": "ctrl+alt+right",
 		"command": "-workbench.action.moveEditorToNextGroup"
-	},
-	{
-		"key": "alt+left",
-		"command": "workbench.action.navigateBack"
-	},
-	{
-		"key": "alt+right",
-		"command": "workbench.action.navigateForward"
 	},
 	{
 		"key": "ctrl+alt+left",
@@ -548,5 +513,120 @@ export const CurrentBinding: IKeyBinding[] = [
 		"key": "alt+s",
 		"command": "-gitlens.showQuickRepoStatus",
 		"when": "gitlens:enabled && config.gitlens.keymap == 'alternate'"
+	},
+	{
+		"key": "escape escape",
+		"command": "-workbench.action.exitZenMode",
+		"when": "inZenMode"
+	},
+	{
+		"key": "ctrl+k ctrl+t",
+		"command": "workbench.view.extension.todo-tree-container"
+	},
+	{
+		"key": "ctrl+k ctrl+t",
+		"command": "-workbench.action.selectTheme"
+	},
+	{
+		"key": "ctrl+b",
+		"command": "-amVim.ctrl+b",
+		"when": "amVim.configuration.shouldBindCtrlCommands && editorTextFocus && amVim.mode != 'INSERT'"
+	},
+	{
+		"key": "ctrl+c",
+		"command": "-amVim.ctrl+c",
+		"when": "amVim.configuration.shouldBindCtrlCommands && editorTextFocus"
+	},
+	{
+		"key": "ctrl+f",
+		"command": "-amVim.ctrl+f",
+		"when": "amVim.configuration.shouldBindCtrlCommands && editorTextFocus && amVim.mode != 'INSERT'"
+	},
+	{
+		"key": "ctrl+alt+v",
+		"command": "multiclip.list"
+	},
+	{
+		"key": "ctrl+tab",
+		"command": "workbench.action.terminal.focusNext",
+		"when": "terminalFocus"
+	},
+	{
+		"key": "ctrl+shift+tab",
+		"command": "workbench.action.terminal.focusPrevious",
+		"when": "terminalFocus"
+	},
+	{
+		"key": "cmd+s",
+		"command": "searchEditorApplyChanges.apply",
+		"when": "inSearchEditor"
+	},
+	{
+		"key": "ctrl+k f",
+		"command": "-workbench.action.closeFolder"
+	},
+	{
+		"key": "ctrl+end",
+		"command": "-cursorBottom",
+		"when": "textInputFocus && editorLangId == 'markdown'"
+	},
+	{
+		"key": "ctrl+end",
+		"command": "macros.goToNearEnd",
+		"when": "textInputFocus && editorLangId == 'markdown'"
+	},
+	{
+		"key": "ctrl+numpad_multiply",
+		"command": "git-graph.view"
+	},
+	{
+		"key": "alt+c",
+		"command": "-gitlens.showQuickCommitFileDetails",
+		"when": "editorTextFocus && !gitlens:disabled && config.gitlens.keymap == 'alternate'"
+	},
+	{
+		"key": "ctrl+r shift+r",
+		"command": "-npm-script.run",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+r r",
+		"command": "-npm-script.rerun-last-script",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+r t",
+		"command": "-npm-script.test",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+r l",
+		"command": "-npm-script.showOutput",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+r shift+x",
+		"command": "-npm-script.terminate-script",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+b",
+		"command": "markdown.extension.editing.toggleBold",
+		"when": "editorTextFocus && !editorReadonly && editorLangId == 'markdown' && editorHasSelection"
+	},
+	{
+		"key": "ctrl+b",
+		"command": "-markdown.extension.editing.toggleBold",
+		"when": "editorTextFocus && !editorReadonly && editorLangId == 'markdown'"
+	},
+	{
+		"key": "ctrl+i",
+		"command": "markdown.extension.editing.toggleItalic",
+		"when": "editorTextFocus && !editorReadonly && editorLangId == 'markdown' && editorHasSelection"
+	},
+	{
+		"key": "ctrl+i",
+		"command": "-markdown.extension.editing.toggleItalic",
+		"when": "editorTextFocus && !editorReadonly && editorLangId == 'markdown'"
 	}
-]
+];

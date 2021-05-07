@@ -4,6 +4,7 @@ export interface IKeyBinding {
 	key: string;
 	command: string;
 	when?: string;
+	args?: Record<string, any>;
 }
 
 type Operand =
@@ -44,42 +45,59 @@ export function appliesToCondition(when: string, ...conditions: Condition[]) {
 				negate: match.groups!.negate !== undefined,
 				condition: match.groups!.condition,
 			});
-		} else if (token == '==' || token == '!=') {
-			const last = operands.pop();
-			if (!last || last.type != 'truthy' || last.negate === true) {
-				throw 'invalid condition';
-			}
+		} else
+			switch (token) {
+				case '==':
+				case '!=': {
+					const last = operands.pop();
+					if (!last || last.type != 'truthy' || last.negate === true) {
+						throw 'invalid condition';
+					}
 
-			const next = tokens.shift();
-			if (!next) {
-				throw 'missing comparator';
-			}
-			operands.push({
-				type: 'equal',
-				variable: last.condition,
-				negate: token == '!=',
-				value: next.replace(/(^'|^"|'$|"$)/g, ''),
-			});
-		} else if (token == '=~') {
-			const last = operands.pop();
-			if (!last || last.type != 'truthy' || last.negate === true) {
-				throw 'invalid condition';
-			}
+					const next = tokens.shift();
+					if (!next) {
+						throw 'missing comparator';
+					}
+					operands.push({
+						type: 'equal',
+						variable: last.condition,
+						negate: token == '!=',
+						value: next.replace(/(^'|^"|'$|"$)/g, ''),
+					});
+					break;
+				}
 
-			const next = tokens.shift();
-			if (!next) {
-				throw 'missing regex';
+				case '=~': {
+					const last = operands.pop();
+					if (!last || last.type != 'truthy' || last.negate === true) {
+						throw 'invalid condition';
+					}
+
+					const next = tokens.shift();
+					if (!next) {
+						throw 'missing regex';
+					}
+					operands.push({
+						type: 'match',
+						variable: last.condition,
+						regex: next,
+					});
+					break;
+				}
+
+				case '>':
+				case '<':
+				case '>=':
+				case '<=':
+				case '&&':
+				case '||': {
+					//pass
+					break;
+				}
+				default: {
+					throw `Unrecognised token in when clause "${token}"`;
+				}
 			}
-			operands.push({
-				type: 'match',
-				variable: last.condition,
-				regex: next,
-			});
-		} else if (token == '&&') {
-			//pass
-		} else {
-			throw `Unrecognised token in when clause "${token}"`;
-		}
 	}
 
 	for (const operand of operands) {
